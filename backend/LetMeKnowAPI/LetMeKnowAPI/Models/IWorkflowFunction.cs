@@ -1,7 +1,9 @@
+using LetMeKnowAPI.Models.Functions;
+
 namespace LetMeKnowAPI.Models;
 
 public interface IWorkflowFunction<T>
 {
-    void RunFunction();
-    T GetResult();
+    Task RunFunction();
+    TextResult GetResult();
 }
