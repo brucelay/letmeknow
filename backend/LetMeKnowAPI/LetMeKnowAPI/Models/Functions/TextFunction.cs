@@ -24,7 +24,7 @@ public class TextFunction : IWorkflowFunction<TextResult>
         _AuthToken = authToken;
     }
     
-    public void RunFunction()
+    public Task RunFunction()
     {
         TwilioClient.Init(_SID, _AuthToken);
             
@@ -34,6 +34,7 @@ public class TextFunction : IWorkflowFunction<TextResult>
             body: _OutMessage);
         
         _textResult = new TextResult(true);
+        return Task.CompletedTask;
     }
 
     public TextResult GetResult()

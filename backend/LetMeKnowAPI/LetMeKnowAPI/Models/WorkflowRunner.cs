@@ -105,8 +105,7 @@ public class WorkflowRunner
     }
 
     public async Task<ChoiceResponse?> SummariseText(string url, int charLimit)
-    {
-        // Console.WriteLine("INput Text: " + input);
+    { 
         var input = "please summarise this article at the following url: " + url;
         var key = "KeyHere";
         var openAiService = new OpenAIService(new OpenAiOptions()
