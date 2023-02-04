@@ -9,7 +9,7 @@ namespace LetMeKnowAPI.Controllers
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
+        };
 
         private readonly ILogger<WeatherForecastController> _logger;
 
@@ -18,7 +18,7 @@ namespace LetMeKnowAPI.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet("Weather" , Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
@@ -28,6 +28,17 @@ namespace LetMeKnowAPI.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+        
+        [HttpGet("numbers", Name = "GetNumbers")]
+        public IEnumerable<int> Numbers()
+        {
+            var ints = new List<int>();
+            ints.Add(7);
+            ints.Add(7);
+            ints.Add(7);
+
+            return ints.ToArray();
         }
     }
 }
