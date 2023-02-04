@@ -2,12 +2,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LetMeKnowAPI.Models.Functions;
 
-public class FetchFunction : IWorkflowFunction<IFetchResult>
+public class FetchFunction : IWorkflowFunction<FetchResult>
 {
-    private IResult<IFetchResult> _result;
-
     private readonly string _url;
     private readonly HttpClient _httpClient;
+
+    private FetchResult _fetchResult;
 
     public FetchFunction(String url, HttpClient httpClient)
     {
@@ -32,26 +32,11 @@ public class FetchFunction : IWorkflowFunction<IFetchResult>
             Console.WriteLine("Error getting content from URL: " + ex.Message);
         }
 
-        this._result = new FetchResult(content);
+        _fetchResult = new FetchResult(content);
     }
 
-    public IResult<IFetchResult> GetResult()
+    public FetchResult GetResult()
     {
-        return this._result;
-    }
-}
-
-class FetchResult : IResult<IFetchResult>
-{
-    private IFetchResult fetchResult;
-
-    public FetchResult(string data)
-    {
-        fetchResult.Data = data;
-    }
-    
-    public IFetchResult GetResult()
-    {
-        return fetchResult;
+        return _fetchResult;
     }
 }
