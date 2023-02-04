@@ -19,7 +19,7 @@ namespace LetMeKnowAPI.Controllers
     public class WorkflowRunnerController
     {
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly HttpClient _client;
+        private static HttpClient _client;
 
 
         public WorkflowRunnerController(ILogger<WeatherForecastController> logger, HttpClient client)
@@ -43,7 +43,7 @@ namespace LetMeKnowAPI.Controllers
         }
         
         [HttpGet("Scrape", Name = "ScrapeFromURl")]
-        public async Task<string> GetContentFromUrl(string url)
+        public static async Task<string> GetContentFromUrl(string url)
         {
             string content = string.Empty;
 
@@ -66,7 +66,7 @@ namespace LetMeKnowAPI.Controllers
         }
 
         [HttpGet("OpenAi", Name = "Summerise")]
-        public async Task<ChoiceResponse?> Summerise(String input, string key)
+        public static async Task<ChoiceResponse?> Summerise(String input, string key)
         {
             Console.WriteLine(input);
             input += "\nTl;dr";
@@ -78,7 +78,7 @@ namespace LetMeKnowAPI.Controllers
             var completionResult = await openAiService.Completions.CreateCompletion(new CompletionCreateRequest()
             {
                 Prompt = input,
-                Model = Models.TextDavinciV3,
+                Model = OpenAI.GPT3.ObjectModels.Models.TextDavinciV3,
                 MaxTokens = 200
             });
             if (completionResult.Successful)
