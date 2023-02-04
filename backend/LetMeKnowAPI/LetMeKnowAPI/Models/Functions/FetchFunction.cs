@@ -1,17 +1,43 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace LetMeKnowAPI.Models.Functions;
 
 public class FetchFunction : IWorkflowFunction<IFetchResult>
 {
-    private IResult<IFetchResult> result;
+    private IResult<IFetchResult> _result;
 
-    public void RunFunction()
+    private readonly string _url;
+    private readonly HttpClient _httpClient;
+
+    public FetchFunction(String url, HttpClient httpClient)
     {
-        this.result = new FetchResult("data");
+        _url = url;
+        _httpClient = httpClient;
+    }
+    
+    public async void RunFunction()
+    {
+        var content = string.Empty;
+        
+        try
+        {
+            using var response = await _httpClient.GetAsync(_url);
+            if (response.IsSuccessStatusCode)
+            {
+                content = await response.Content.ReadAsStringAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error getting content from URL: " + ex.Message);
+        }
+
+        this._result = new FetchResult(content);
     }
 
     public IResult<IFetchResult> GetResult()
     {
-        return this.result;
+        return this._result;
     }
 }
 
@@ -21,7 +47,7 @@ class FetchResult : IResult<IFetchResult>
 
     public FetchResult(string data)
     {
-        this.fetchResult.Data = data;
+        fetchResult.Data = data;
     }
     
     public IFetchResult GetResult()
