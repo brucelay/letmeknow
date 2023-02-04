@@ -1,4 +1,5 @@
 using System.Net;
+using LetMeKnowAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -13,13 +14,11 @@ namespace LetMeKnowAPI.Controllers;
 public class WorkflowController : ControllerBase
 {
     [HttpPost("run")]
-    public Boolean RunWorkflow([FromBody] dynamic jsonData)
+    public async Task<bool> RunWorkflow([FromBody] dynamic jsonData)
     {
         JArray data = JsonConvert.DeserializeObject<dynamic>(jsonData.ToString());
-        foreach (var entry  in data)
-        {
-            Console.WriteLine(entry);
-        }
+        var workFlowRunner = new WorkflowRunner(data);
+        await workFlowRunner.Execute();
         return true;
     }
 }
