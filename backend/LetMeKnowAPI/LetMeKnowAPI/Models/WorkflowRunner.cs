@@ -47,9 +47,10 @@ public class WorkflowRunner
                 _varibles.Push(url);
                 break;
             case "summarise":
-                var MaxTokens = int.Parse(options["MaxTokens"].ToString());
+                var MaxTokens = int.Parse(options["maxtokens"].ToString());
                 var text = _varibles.Pop()?.ToString();
                 var summarisedText = await SummariseText(text, MaxTokens);
+                Console.WriteLine("SummerisedText: " + summarisedText);
                 _varibles.Push(summarisedText);
                 break;
             case "text":
@@ -62,27 +63,11 @@ public class WorkflowRunner
                 break;
         }
     }
-
-    public async Task<string> getContentFromURL(string? url)
-    {
-        using (var client = new HttpClient())
-        {
-            var response = await client.GetAsync(url);
-            if (!response.IsSuccessStatusCode)
-            {
-                Console.WriteLine($"Failed to retrieve content from URL: {url}. Error: {response.StatusCode}");
-                return null;
-            }
-
-            var content = await response.Content.ReadAsStringAsync();
-            content = StripHtmlCssJs(content);
-            content = RemoveLineBreaks(content);
-            return content;
-        }
-    }
+    
 
     public bool sendText(string TextMessage, string number)
     {
+        Console.WriteLine("Text To Be Sent: " + TextMessage);
         var messages = SplitString(TextMessage);
         
         var SID = Environment.GetEnvironmentVariable("AccountSID");
@@ -98,16 +83,18 @@ public class WorkflowRunner
             var message = MessageResource.Create(
                 to: new PhoneNumber(number), // Replace with your recipient's phone number
                 from: new PhoneNumber(outgoingPhoneNumber), // Replace with a Twilio-provided phone number
-                body: messageToSend);    
+                body: messageToSend);   
         }
         
         return true;
     }
 
-    public async Task<ChoiceResponse?> SummariseText(string url, int charLimit)
-    { 
+    public async Task<string> SummariseText(string url, int charLimit)
+    {
+        // Console.WriteLine("INput Text: " + input);
         var input = "please summarise this article at the following url: " + url;
-        var key = "KeyHere";
+        var key = Environment.GetEnvironmentVariable("APIKey");
+
         var openAiService = new OpenAIService(new OpenAiOptions()
         {
             ApiKey =  key
@@ -122,13 +109,14 @@ public class WorkflowRunner
         
         Console.WriteLine("Result: " + completionResult.Choices.FirstOrDefault());
 
-        return null;
+        return completionResult.Choices.FirstOrDefault().Text;
     }
 
 
     public static string[] SplitString(string input)
     {
-        const int maxLength = 500;
+        Console.WriteLine(input);
+        const int maxLength = 1500;
         var result = new List<string>();
         for (int i = 0; i < input.Length; i += maxLength)
         {
