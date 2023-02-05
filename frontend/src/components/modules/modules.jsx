@@ -1,5 +1,6 @@
 export const modules = [
   {"function": "fetch"},
   {"function": "summarise"},
-  {"function": "message"}
+  {"function": "message"},
+  {"function": "regular expression"}
 ]
