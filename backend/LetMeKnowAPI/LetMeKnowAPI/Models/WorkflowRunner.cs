@@ -89,7 +89,24 @@ public class WorkflowRunner
                 var messageToBeQueued = options["message"].ToString();
                 _varibles.Push(messageToBeQueued);
                 break;
+            case "regexCheck":
+                Console.WriteLine("Comparing with regex");
+                var regexStr = options["regex"].ToString();
+                compairWithRegex(regexStr);
+                break;
         }
+    }
+
+    private void compairWithRegex(string regexStr)
+    {
+        var strToBeChecked = _varibles.Pop()?.ToString();
+        MatchCollection matches = Regex.Matches(strToBeChecked, regexStr);
+        var output = "";
+        foreach (Match match in matches)
+        {
+            output += match.Value + "\n";
+        }
+        _varibles.Push(output);
     }
 
     public async Task<string> GetContentFromUrl(string url)
