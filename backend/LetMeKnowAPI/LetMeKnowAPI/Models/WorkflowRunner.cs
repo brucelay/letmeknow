@@ -190,8 +190,17 @@ public class WorkflowRunner
 
     public async Task<string> SummariseText(string url, int charLimit)
     {
+        var input = "";
+        if (url.Equals("") || url.Equals(String.Empty) || _urls.Count < _varibles.Count)
+        {
+            var text = _varibles.Pop()?.ToString();
+            input = "Please summerise this text:\n " + text;
+        }
+        else
+        {
+            input = "please summarise this article at the following url: " + url;
+        }
         // Console.WriteLine("INput Text: " + input);
-        var input = "please summarise this article at the following url: " + url;
         var key = Environment.GetEnvironmentVariable("APIKey");
 
         var openAiService = new OpenAIService(new OpenAiOptions()
