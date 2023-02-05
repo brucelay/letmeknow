@@ -20,7 +20,7 @@ export default function WorkflowBuilder() {
 
   async function runWorkflow() {
     const req = await fetch(
-      "https://letmeknow-api.onrender.com/Workflow/CreateWorkflow",
+      "https://api.letmeknow.tech/Workflow/CreateWorkflow",
       {
         method: "POST",
         headers: {
@@ -43,7 +43,7 @@ export default function WorkflowBuilder() {
     } ,...functions])
 
     const req = await fetch(
-        "https://letmeknow-api.onrender.com/Workflow/CreateEvent",
+        "https://api.letmeknow.tech/Workflow/CreateEvent",
       {
         method: "POST",
         headers: {
