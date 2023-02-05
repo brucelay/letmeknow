@@ -15,7 +15,7 @@ export default function TextModule(props) {
   return (
     <div class="bg-slate-50 p-3 flex flex-col">
       <div class="flex">
-        <h2 class="text-xl mb-2">{props.index}: Text</h2>
+        <h2 class="text-xl mb-2">Text</h2>
       </div>
       <div class="flex rounded border-2 border-slate-200">
         <div class="p-2 px-3">

@@ -15,7 +15,7 @@ export default function FetchModule(props) {
   return (
     <div class="bg-slate-50 p-3 flex flex-col">
       <div class="flex">
-        <h2 class="text-xl mb-2">{props.index}: Fetch</h2>
+        <h2 class="text-xl mb-2">Fetch</h2>
       </div>
       <div class="flex rounded border-2 border-slate-200">
         <div class="p-2 px-3">
