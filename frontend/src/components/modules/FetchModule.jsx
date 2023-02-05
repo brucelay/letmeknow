@@ -13,15 +13,15 @@ export default function FetchModule(props) {
   });
 
   return (
-    <div class="bg-slate-50 p-3 m-3 flex flex-col">
+    <div class="p-3 m-3 flex flex-col outline outline-gray-400 rounded">
       <div class="flex">
-        <h2 class="text-xl mb-2">Fetch</h2>
+        <h2 class="text-xl font-bold mb-2">Fetch</h2>
       </div>
       <div class="flex rounded border-2 border-slate-200">
         <div class="p-2 px-3">
-          <span>URL</span>
+          <span className="text-gray-700 ">URL</span>
         </div>
-        <input onInput={(e) => setUrl(e.target.value)} type="text" class="block p-2 w-full" />
+        <input onInput={(e) => setUrl(e.target.value)} type="text" class="block p-2 w-full rounded text-gray-700 font-bold" />
       </div>
     </div>
   );
