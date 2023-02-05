@@ -12,8 +12,22 @@ export default function WorkflowBuilder() {
 
   function printWorkflow() {
     const unwrappedFunctions = unwrap(functions);
-    unwrappedFunctions.map(func => delete func.component);
     console.log(JSON.stringify(unwrappedFunctions, null, 2));
+  }
+
+  async function runWorkflow() {
+    const req = await fetch(
+      "https://letmeknow-api.onrender.com/Workflow/CreateWorkflow",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(functions, null, 2),
+      }
+    );
+
+    console.log(req.status);
   }
 
   return (
@@ -21,24 +35,21 @@ export default function WorkflowBuilder() {
       <div class="basis-8/12 m-3">
         <div class="flex flex-row">
           <div class="basis-1/2 font-bold">
-              <ComponentSelect
-                  modules={modules}
-                  setModules={setModules}
-                  functions={functions}
-                  setFunctions={setFunctions}
-              />
+            <ComponentSelect
+              modules={modules}
+              setModules={setModules}
+              functions={functions}
+              setFunctions={setFunctions}
+            />
           </div>
           <div class="basis-1/2">
-            <ComponentEdit functions={functions} setFunctions={setFunctions}/>
+            <ComponentEdit functions={functions} setFunctions={setFunctions} />
           </div>
         </div>
       </div>
-      <div class="basis-2/12 m-6">
-        <button className="bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded" onClick={printWorkflow}>Run Workflow</button>
+      <div class="basis-2/12">
+        <button onClick={runWorkflow}>Run Workflow</button>
       </div>
     </>
   );
-
 }
-
-
