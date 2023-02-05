@@ -18,24 +18,27 @@ export default function WorkflowBuilder() {
 
   return (
     <>
-      <div class="basis-8/12">
+      <div class="basis-8/12 m-3">
         <div class="flex flex-row">
-          <div class="basis-1/2">
-            <ComponentSelect
-              modules={modules}
-              setModules={setModules}
-              functions={functions}
-              setFunctions={setFunctions}
-            />
+          <div class="basis-1/2 font-bold">
+              <ComponentSelect
+                  modules={modules}
+                  setModules={setModules}
+                  functions={functions}
+                  setFunctions={setFunctions}
+              />
           </div>
           <div class="basis-1/2">
             <ComponentEdit functions={functions} setFunctions={setFunctions}/>
           </div>
         </div>
       </div>
-      <div class="basis-2/12">
-        <button onClick={printWorkflow}>Run Workflow</button>
+      <div class="basis-2/12 m-6">
+        <button className="bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded" onClick={printWorkflow}>Run Workflow</button>
       </div>
     </>
   );
+
 }
+
+

@@ -9,9 +9,12 @@ export default function ComponentSelect(props) {
 
   return (
     <>
-      <For each={props.modules()}>
+      <For  each={props.modules()}>
         {(module) => (
-          <h1 onClick={() => addFunction(module)}>{module.function}</h1>
+            <div class="m-3">
+                <button className="bg-gray-800 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+                        onClick={() => addFunction(module)}>{module.function}</button>
+            </div>
         )}
       </For>
     </>
