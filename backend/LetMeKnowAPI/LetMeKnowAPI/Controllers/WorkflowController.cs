@@ -28,10 +28,10 @@ public class WorkflowController : ControllerBase
     {
         JArray data = JsonConvert.DeserializeObject<dynamic>(jsonData.ToString());
         var entryOne = data[0];
-        var functionType = entryOne["function"].ToString();
+        var functionType = entryOne["function"]?.ToString();
         if (!functionType.Equals("event")) return this.BadRequest(); // not set up for events
         var options = entryOne["options"];
-        var freqInMins = int.Parse(options["timeinmins"].ToString());
+        var freqInMins = float.Parse(options["timeinmins"].ToString());
         var amount = int.Parse(options["repets"].ToString());
 
         var dataList = data.ToList();
