@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Net;
 using System.Text.RegularExpressions;
 using LetMeKnowAPI.Controllers;
@@ -17,12 +18,14 @@ public class WorkflowRunner
 {
     private JArray _functions;
     private Stack<dynamic> _varibles;
+    private Stack<dynamic?> _urls;
 
 
     public WorkflowRunner(JArray functions)
     {
         _functions = functions;
         _varibles = new Stack<dynamic>();
+        _urls = new Stack<dynamic?>();
     }
 
     public async Task Execute()
@@ -42,13 +45,14 @@ public class WorkflowRunner
         {
             case "fetch":
                 var url = options["url"]?.ToString();
-                //var result = await getContentFromURL(url);
-                //Console.WriteLine(result);
-                _varibles.Push(url);
+                Console.WriteLine("URL:" + url);
+                _urls.Push(url);
+                var result = await GetContentFromUrl(url);
+                _varibles.Push(result);
                 break;
             case "summarise":
                 var MaxTokens = int.Parse(options["maxtokens"].ToString());
-                var text = _varibles.Pop()?.ToString();
+                var text = _urls.Pop()?.ToString();
                 var summarisedText = await SummariseText(text, MaxTokens);
                 Console.WriteLine("SummerisedText: " + summarisedText);
                 _varibles.Push(summarisedText);
@@ -61,9 +65,85 @@ public class WorkflowRunner
                 Console.WriteLine(textResult);
                 // call text message
                 break;
+            case "if":
+                Console.WriteLine("ConditionalStatement");
+                var predicate = options["predicate"];
+                var predFunctionName = predicate["function"].ToString();
+                var predOptions = predicate["options"];
+                var predResult = evalPredicate(predFunctionName, predOptions);
+                if (predResult)
+                {
+                    var functionOne = options["function1"]?.ToString();
+                    var optionsOne = options["options1"];
+                    await Interpreter(functionOne, optionsOne);
+                }
+                else
+                {
+                    var functionTwo = options["function2"]?.ToString();
+                    var optionsTwo = options["options2"];
+                    await Interpreter(functionTwo, optionsTwo);
+                }
+                break;
+            case "queueMessage":
+                Console.WriteLine("Queueing Message");
+                var messageToBeQueued = options["message"].ToString();
+                _varibles.Push(messageToBeQueued);
+                break;
         }
     }
+
+    public async Task<string> GetContentFromUrl(string url)
+    {
+        using (var client = new HttpClient())
+        {
+            string content = await client.GetStringAsync(url);
+            var output = StripHtml(content);
+            Console.WriteLine(output.Substring(0,100));
+            return output;
+        }
+        
+        string StripHtml(string input)
+        {
+            return Regex.Replace(input, "<.*?>", String.Empty);
+        }
+    }
+
+    private bool evalPredicate(string functionName, JToken options)
+    {
+        Console.WriteLine("Evaluating Predicate: " + functionName + ":" + options);
+        switch (functionName)
+        {
+            case "contains":
+                Console.WriteLine("Predicate is a contains predicate");
+                var compareStr = options["compare"]?.ToString();
+                var result =  Contains(compareStr, _varibles.Peek().ToString());
+                Console.WriteLine(result);
+                return result;
+            default:
+                return false;
+        }
+    }
+
+    public void addStrToStack(string str)
+    {
+        _varibles.Push(str);
+    }
     
+    private static bool Contains(string compareStr, string body)
+    {
+        Console.WriteLine("===== Contains Method =====");
+        if (body.Length > 100)
+        {
+            Console.WriteLine("CompairStr = "  + compareStr + "\nbody = " + body.Substring(0,100));
+        }
+        else
+        {
+            Console.WriteLine("CompairStr = "  + compareStr + "\nbody = " + body);
+        }
+        var result = body.Contains(compareStr);
+        Console.WriteLine("contains result = " + result);
+        return result;
+    }
 
     public bool sendText(string TextMessage, string number)
     {
