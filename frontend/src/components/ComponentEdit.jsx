@@ -1,4 +1,5 @@
 import FetchModule from "./modules/FetchModule";
+import QueueModule from "./modules/QueueModule";
 import SummariseModule from "./modules/SummariseModule";
 
 export default function ComponentEdit(props) {
@@ -23,6 +24,13 @@ export default function ComponentEdit(props) {
                       setFunctions={props.setFunctions}
                     />
                   )
+                case "message":
+                  return (
+                    <QueueModule
+                      index={i}
+                      setFunctions={props.setFunctions}
+                    />
+                )
               }
             }}
           </div>
