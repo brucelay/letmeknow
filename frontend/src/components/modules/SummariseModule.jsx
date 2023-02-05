@@ -6,7 +6,7 @@ export default function SummariseModule(props) {
   createEffect( () => {
     props.setFunctions( (functions) => {
         functions[props.index()].options = {
-            maxTokens: maxTokens()
+            maxtokens: maxTokens()
         }
         return functions;
     })
