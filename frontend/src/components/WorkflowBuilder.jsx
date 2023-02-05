@@ -32,9 +32,9 @@ export default function WorkflowBuilder() {
 
   return (
     <>
-      <div class="basis-8/12 m-3">
+      <div class="basis-8/12 p-5 bg-slate-200">
         <div class="flex flex-row">
-          <div class="basis-1/2 font-bold">
+          <div class="basis-1/4 font-bold">
             <ComponentSelect
               modules={modules}
               setModules={setModules}
@@ -42,7 +42,7 @@ export default function WorkflowBuilder() {
               setFunctions={setFunctions}
             />
           </div>
-          <div class="basis-1/2">
+          <div class="basis-3/4">
             <ComponentEdit functions={functions} setFunctions={setFunctions} />
           </div>
         </div>

@@ -13,7 +13,7 @@ export default function SummariseModule(props) {
   });
 
   return (
-    <div class="bg-slate-50 p-3 flex flex-col">
+    <div class="bg-slate-50 p-3 m-3 flex flex-col">
       <div class="flex">
         <h2 class="text-xl mb-2">Summarise</h2>
       </div>
