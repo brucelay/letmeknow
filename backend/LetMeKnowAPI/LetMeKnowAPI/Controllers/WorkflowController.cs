@@ -24,12 +24,23 @@ public class WorkflowController : ControllerBase
     }
     
     [HttpPost("CreateEvent")]
-    public Task<OkResult> CreateNewWorkFlowEvent([FromBody] dynamic jsonData, float freqInMins, int amount)
+    public IActionResult CreateNewWorkFlowEvent([FromBody] dynamic jsonData)
     {
         JArray data = JsonConvert.DeserializeObject<dynamic>(jsonData.ToString());
+        var entryOne = data[0];
+        var functionType = entryOne["function"].ToString();
+        if (!functionType.Equals("event")) return this.BadRequest(); // not set up for events
+        var options = entryOne["options"];
+        var freqInMins = int.Parse(options["timeinmins"].ToString());
+        var amount = int.Parse(options["repets"].ToString());
+
+        var dataList = data.ToList();
+        dataList.RemoveAt(0);
+        data = new JArray { dataList.ToArray() };
         var workflowRunner = new WorkflowRunner(data);
+        
         ScheduleWorkFlow(workflowRunner, TimeSpan.FromMinutes(freqInMins), amount);
-        return Task.FromResult(Ok());
+        return Ok();
     }
     private async void ScheduleWorkFlow(WorkflowRunner workflow, TimeSpan interval, int amountOfTimes)
     {
