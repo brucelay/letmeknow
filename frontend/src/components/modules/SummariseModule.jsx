@@ -13,15 +13,15 @@ export default function SummariseModule(props) {
   });
 
   return (
-    <div class="bg-slate-50 p-3 m-3 flex flex-col">
+    <div class=" p-3 m-3 flex flex-col rounded outline outline-gray-400">
       <div class="flex">
-        <h2 class="text-xl mb-2">Summarise</h2>
+        <h2 class="text-xl mb-2 font-bold text-gray-700">Summarise</h2>
       </div>
-      <div class="flex rounded border-2 border-slate-200">
-        <div class="p-2 px-3">
-          <span>Tokens</span>
+      <div class="flex rounded border-2 border-slate-300 ">
+        <div class="p-2 px-3 ">
+          <span>Characters</span>
         </div>
-        <input onInput={(e) => setMaxTokens(e.target.value)} type="text" class="block p-2 w-full" />
+        <input onInput={(e) => setMaxTokens(e.target.value)} type="text" class="block p-2 w-full rounded text-gray-700 font-bold" />
       </div>
     </div>
   );
