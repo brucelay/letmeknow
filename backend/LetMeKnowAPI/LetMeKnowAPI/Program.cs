@@ -12,17 +12,16 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-    });
+    options.AddPolicy("AllowAllOrigins",
+        builder =>
+        {
+            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        });
 });
 
 var app = builder.Build();
 
-app.UseCors();
+app.UseCors("AllowAllOrigins");
 
 app.UseSwagger();
 // Configure the HTTP request pipeline.
