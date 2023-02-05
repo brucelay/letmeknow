@@ -1,3 +1,4 @@
+import { createSignal } from "solid-js";
 import WorkflowBuilder from "./components/WorkflowBuilder";
 
 export default function App() {
