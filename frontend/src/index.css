@@ -5,11 +5,13 @@
 @tailwind utilities;
 
 html, body {
-  @apply text-gray-700;
+  @apply text-gray-800;
   @apply bg-slate-100;
   @apply dark:bg-neutral-900;
   height: 100%;
 }
+
+
 
 #root {
   height: 100%;

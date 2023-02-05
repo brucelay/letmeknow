@@ -74,10 +74,12 @@ export default function WorkflowBuilder() {
       <div class="basis-2/12">
         <div class="flex text-2xl items-center h-full font-bold gap-x-5">
             <div class="flex justify-start ml-5">
-                <button class="px-10 py-10 bg-gray-300 hover:bg-lime-500 rounded" onClick={runWorkflow}>Run Workflow</button>
+                <button className="px-10 py-10 bg-gray-800 hover:bg-orange-600 rounded text-white"
+                        onClick={runWorkflow}>Run Workflow
+                </button>
             </div>
             <div class="flex justify-start">
-                <button class="px-10 py-10 bg-gray-300 hover:bg-lime-500 rounded" onClick={scheduleWorkflow}>Schedule Workflow</button>
+                <button class="px-10 py-10 bg-gray-800 hover:bg-orange-600 rounded text-white" onClick={scheduleWorkflow}>Schedule Workflow</button>
                 <div class="flex flex-col items-start justify-around font-semibold ml-5">
                     <div class="">
                         Every <input onInput={(e) => setMinutes(e.target.value)} class="w-14 mx-3 text-center border rounded" type="text"></input> minutes
