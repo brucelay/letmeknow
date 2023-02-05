@@ -52,7 +52,11 @@ public class WorkflowRunner
                 break;
             case "summarise":
                 var MaxTokens = int.Parse(options["maxtokens"].ToString());
-                var text = _urls.Pop()?.ToString();
+                var text = String.Empty; 
+                if (_urls.Count != 0)
+                {
+                    text = _urls.Pop()?.ToString();
+                }
                 var summarisedText = await SummariseText(text, MaxTokens);
                 Console.WriteLine("SummerisedText: " + summarisedText);
                 _varibles.Push(summarisedText);
