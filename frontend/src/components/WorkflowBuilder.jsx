@@ -30,9 +30,13 @@ export default function WorkflowBuilder() {
     console.log(req.status);
   }
 
+  async function scheduleWorkflow() {
+    console.log('a');
+  }
+
   return (
     <>
-      <div class="basis-8/12 p-5 bg-slate-200 shadow-inner shadow-inner-md">
+      <div class="basis-8/12 p-5 bg-slate-200 dark:bg-slate-900 shadow-inner shadow-inner-lg">
         <div class="flex flex-row">
           <div class="basis-1/4 font-bold">
             <ComponentSelect
@@ -48,7 +52,22 @@ export default function WorkflowBuilder() {
         </div>
       </div>
       <div class="basis-2/12">
-        <button onClick={runWorkflow}>Run Workflow</button>
+        <div class="flex text-2xl items-center h-full font-bold gap-x-5">
+            <div class="flex justify-start ml-5">
+                <button class="px-10 py-10 bg-gray-300 hover:bg-lime-500 rounded" onClick={runWorkflow}>Run Workflow</button>
+            </div>
+            <div class="flex justify-start">
+                <button class="px-10 py-10 bg-gray-300 hover:bg-lime-500 rounded" onClick={scheduleWorkflow}>Schedule Workflow</button>
+                <div class="flex flex-col items-center place-content-around">
+                    <div>
+                        Every <input class="w-12 mx-3" type="number"></input> minutes
+                    </div>
+                    <div>
+                        Repeat <input class="w-12 mx-3" type="number"></input> times
+                    </div>
+                </div>
+            </div>
+        </div>
       </div>
     </>
   );

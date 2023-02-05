@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,9 +7,15 @@
 html, body {
   @apply text-gray-700;
   @apply bg-slate-100;
+  @apply dark:bg-neutral-900;
   height: 100%;
 }
 
 #root {
   height: 100%;
+}
+
+
+#title {
+  font-family: "Lexend Deca";
 }
