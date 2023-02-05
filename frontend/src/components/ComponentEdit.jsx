@@ -1,4 +1,6 @@
 import FetchModule from "./modules/FetchModule";
+import SummariseModule from "./modules/SummariseModule";
+import TextModule from "./modules/TextModule";
 
 export default function ComponentEdit(props) {
   return (
@@ -15,6 +17,20 @@ export default function ComponentEdit(props) {
                       setFunctions={props.setFunctions}
                     />
                   );
+                case "summarise":
+                  return (
+                    <SummariseModule
+                      index={i}
+                      setFunctions={props.setFunctions}
+                    />
+                  )
+                case "text":
+                  return (
+                    <TextModule
+                      index={i}
+                      setFunctions={props.setFunctions}
+                    />
+                  )
               }
             }}
           </div>
