@@ -4,8 +4,9 @@ import { createStore } from "solid-js/store";
 import { createSignal } from "solid-js";
 import { modules as modulesObject } from "./modules/modules";
 import { unwrap } from "solid-js/store";
+import { PropAliases } from "solid-js/web";
 
-export default function WorkflowBuilder() {
+export default function WorkflowBuilder(props) {
   const [functions, setFunctions] = createStore([]);
 
   const [modules, setModules] = createSignal(modulesObject);
@@ -14,11 +15,23 @@ export default function WorkflowBuilder() {
   const [repeat, setRepeat] = createSignal("?")
 
   function printWorkflow() {
+    console.log("Number:", props.number());
     const unwrappedFunctions = unwrap(functions);
     console.log(JSON.stringify(unwrappedFunctions, null, 2));
   }
 
   async function runWorkflow() {
+    const unwrapped = unwrap(functions)
+    const functionsWithText = ([...unwrapped, {
+        "function": "text",
+        "options": {
+            "number": props.number()
+        }}
+    ]
+    );
+
+    printWorkflow();
+
     const req = await fetch(
       "https://api.letmeknow.tech/Workflow/CreateWorkflow",
       {
@@ -26,7 +39,7 @@ export default function WorkflowBuilder() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(functions, null, 2),
+        body: JSON.stringify(functionsWithText, null, 2),
       }
     );
 
@@ -34,13 +47,22 @@ export default function WorkflowBuilder() {
   }
 
   async function scheduleWorkflow() {
-    setFunctions([{
+    const unwrapped = unwrap(functions)
+    const functionsWithTextAndSchedule = ([{
         "function": "event",
         "options": {
             "timeinmins": minutes(),
             "repeats": repeat()
         }
-    } ,...functions])
+    }, ...unwrapped, {
+        "function": "text",
+        "options": {
+            "number": props.number()
+        }}
+    ]
+    );
+
+    printWorkflow();
 
     const req = await fetch(
         "https://api.letmeknow.tech/Workflow/CreateEvent",
@@ -49,7 +71,7 @@ export default function WorkflowBuilder() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(functions, null, 2),
+        body: JSON.stringify(functionsWithTextAndSchedule, null, 2),
       }
     )
   }
