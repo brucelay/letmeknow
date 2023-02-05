@@ -1,5 +1,6 @@
 import FetchModule from "./modules/FetchModule";
 import QueueModule from "./modules/QueueModule";
+import RegexModule from "./modules/RegexModule";
 import SummariseModule from "./modules/SummariseModule";
 
 export default function ComponentEdit(props) {
@@ -27,6 +28,13 @@ export default function ComponentEdit(props) {
                 case "message":
                   return (
                     <QueueModule
+                      index={i}
+                      setFunctions={props.setFunctions}
+                    />
+                  )
+                case "regular expression":
+                  return (
+                    <RegexModule
                       index={i}
                       setFunctions={props.setFunctions}
                     />
