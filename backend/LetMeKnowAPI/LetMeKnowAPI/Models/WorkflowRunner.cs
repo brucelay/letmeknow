@@ -99,11 +99,13 @@ public class WorkflowRunner
 
     private void compairWithRegex(string regexStr)
     {
+        Console.WriteLine("Regular Expression: " +  regexStr);
         var strToBeChecked = _varibles.Pop()?.ToString();
         MatchCollection matches = Regex.Matches(strToBeChecked, regexStr);
         var output = "";
         foreach (Match match in matches)
         {
+            Console.WriteLine(match.Value);
             output += match.Value + "\n";
         }
         _varibles.Push(output);
