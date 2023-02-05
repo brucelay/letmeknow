@@ -32,7 +32,7 @@ public class WorkflowController : ControllerBase
         if (!functionType.Equals("event")) return this.BadRequest(); // not set up for events
         var options = entryOne["options"];
         var freqInMins = float.Parse(options["timeinmins"].ToString());
-        var amount = int.Parse(options["repets"].ToString());
+        var amount = int.Parse(options["repeats"].ToString());
 
         var dataList = data.ToList();
         dataList.RemoveAt(0);
