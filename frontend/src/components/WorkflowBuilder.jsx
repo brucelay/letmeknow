@@ -10,6 +10,9 @@ export default function WorkflowBuilder() {
 
   const [modules, setModules] = createSignal(modulesObject);
 
+  const [minutes, setMinutes] = createSignal("?");
+  const [repeat, setRepeat] = createSignal("?")
+
   function printWorkflow() {
     const unwrappedFunctions = unwrap(functions);
     console.log(JSON.stringify(unwrappedFunctions, null, 2));
@@ -31,7 +34,24 @@ export default function WorkflowBuilder() {
   }
 
   async function scheduleWorkflow() {
-    console.log('a');
+    setFunctions([{
+        "function": "event",
+        "options": {
+            "timeinmins": minutes(),
+            "repeats": repeat()
+        }
+    } ,...functions])
+
+    const req = await fetch(
+        "https://letmeknow-api.onrender.com/Workflow/CreateEvent",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(functions, null, 2),
+      }
+    )
   }
 
   return (
@@ -58,12 +78,12 @@ export default function WorkflowBuilder() {
             </div>
             <div class="flex justify-start">
                 <button class="px-10 py-10 bg-gray-300 hover:bg-lime-500 rounded" onClick={scheduleWorkflow}>Schedule Workflow</button>
-                <div class="flex flex-col items-center place-content-around">
-                    <div>
-                        Every <input class="w-12 mx-3" type="number"></input> minutes
+                <div class="flex flex-col items-start justify-around font-semibold ml-5">
+                    <div class="">
+                        Every <input onInput={(e) => setMinutes(e.target.value)} class="w-14 mx-3 text-center border rounded" type="text"></input> minutes
                     </div>
-                    <div>
-                        Repeat <input class="w-12 mx-3" type="number"></input> times
+                    <div class="">
+                        Repeat <input onInput={(e) => setRepeat(e.target.value)} class="w-14 mx-3 text-center border rounded" type="text"></input> times
                     </div>
                 </div>
             </div>
