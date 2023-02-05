@@ -32,7 +32,7 @@ export default function WorkflowBuilder() {
 
   return (
     <>
-      <div class="basis-8/12 p-5 bg-slate-200">
+      <div class="basis-8/12 p-5 bg-slate-200 shadow-inner shadow-inner-md">
         <div class="flex flex-row">
           <div class="basis-1/4 font-bold">
             <ComponentSelect
