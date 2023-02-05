@@ -13,7 +13,7 @@ export default function FetchModule(props) {
   });
 
   return (
-    <div class="p-3 m-3 flex flex-col outline outline-gray-400 rounded">
+    <div class="p-3 m-3 flex flex-col shadow shadow-lg bg-slate-100 rounded">
       <div class="flex">
         <h2 class="text-xl font-bold mb-2">Fetch</h2>
       </div>
